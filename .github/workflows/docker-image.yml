@@ -1,0 +1,20 @@
+name: Publish Docker Image To Dockerhub
+
+on:
+  push:
+   branches: [ main ]
+  pull_request:
+    branches: [ main ]
+      
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build & Push Image
+      run: |
+        echo "${{ secrets.DOCKERPW }}" | docker login -u "dibssbd" --password-stdin
+        docker image build -t dibssbd/otopd:v3 .
+        docker push dibssbd/otopd:v3
